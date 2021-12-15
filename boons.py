@@ -6,6 +6,8 @@ import requests
 import requests_cache
 from bs4 import BeautifulSoup
 
+PREFIX = "../boons-gh-page/"
+
 requests_cache.install_cache("boons_cache")
 
 page_list = [
@@ -39,7 +41,7 @@ def extract_table(url):
         file_name = "".join(
             x for x in urllib.parse.unquote(file_name) if x.isalnum() or x == "."
         )
-        with open(f"images/{file_name}", "wb") as fp:
+        with open(f"{PREFIX}images/{file_name}", "wb") as fp:
             fp.write(img.content)
 
         # extract name
@@ -113,5 +115,5 @@ for boon_name, boon_link in all_names.items():
 for table in bs.find_all("table"):
     table.attrs["class"] = "table"
 
-with open("boons.html", "w") as fp:
+with open(f"{PREFIX}index.html", "w") as fp:
     fp.write(str(bs))
